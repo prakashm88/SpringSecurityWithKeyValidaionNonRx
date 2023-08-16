@@ -1,5 +1,7 @@
 package com.itechgenie.apps.jdk11.sbfilter.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,5 +26,16 @@ public class SBAppController {
 		String userName = auth.getName();
 
 		return "LoggedInUser".concat(": ").concat(userName);
+	}
+	
+	@GetMapping("/api/user/details")
+	public ResponseEntity<Authentication> userDetails() {
+		log.debug("Inside secure controller.userDetails");
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		HttpStatus status = HttpStatus.OK;
+
+		return ResponseEntity.status(status).body(auth);
 	}
 }
